@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Jogo Stop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        #container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+
+        #result {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Jogo Stop</h1>
+        <label for="categoria">Escolha uma categoria:</label>
+        <select id="categoria">
+            <option value="frutas">Frutas</option>
+            <option value="animais">Animais</option>
+            <option value="cidades">Cidades</option>
+            <!-- Adicione mais categorias aqui -->
+        </select>
+        <br>
+        <label for="letra">Digite uma letra:</label>
+        <input type="text" id="letra" maxlength="1">
+        <button onclick="iniciarJogo()">Iniciar</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let palavrasValidas = {
+            frutas: [
+                "Amora", "Banana", "Carambola", "Damasco", "Ervilha", "Figo", "Goiaba",
+                "Hortelã", "Ingá", "Jaca", "Kiwi", "Limão", "Melancia", "Nectarina",
+                "Orégano", "Pera", "Quiabo", "Romã", "Salsa", "Tangerina", "Uva",
+                "Vagem", "Xuxu", "Zimbro"
+            ],
+            animais: [
+                "Andorinha", "Borboleta", "Camelo", "Elefante", "Foca", "Girafa", "Hipopótamo",
+                "Iguana", "Jacaré", "Leão", "Macaco", "Naja", "Ornitorrinco", "Panda", "Quati",
+                "Rinoceronte", "Sapo", "Tatu", "Urso", "Vaca", "Xaréu", "Zebra"
+            ],
+            cidades: [
+                "Amsterdã", "Bangkok", "Chicago", "Dublin", "Edimburgo", "Florença", "Genebra",
+                "Hamburgo", "Istambul", "Jerusalém", "Kingston", "Lisboa", "Madri", "Nairobi",
+                "Oslo", "Paris", "Quebec", "Roma", "Sydney", "Tóquio", "Ulm", "Varsóvia", "Washington",
+                "Xangai", "York", "Zurique"
+            ]
+            // Adicione mais categorias aqui
+        };
+
+        let pontuacao = 0;
+
+        function iniciarJogo() {
+            pontuacao = 0;
+            const categoriaSelecionada = document.getElementById('categoria').value;
+            const letra = document.getElementById('letra').value.toUpperCase();
+            const palavras = getPalavrasIniciadasPorLetra(categoriaSelecionada, letra);
+            mostrarPalavras(palavras);
+        }
+
+        function getPalavrasIniciadasPorLetra(categoria, letra) {
+            return palavrasValidas[categoria].filter(palavra => palavra.toUpperCase().startsWith(letra));
+        }
+
+        function mostrarPalavras(palavras) {
+            const resultDiv = document.getElementById('result');
+            if (palavras.length > 0) {
+                const listaPalavras = palavras.join(', ');
+                resultDiv.innerText = `Palavras encontradas: ${listaPalavras}.`;
+                pontuacao += palavras.length;
+            } else {
+                resultDiv.innerText = "Nenhuma palavra encontrada.";
+            }
+            resultDiv.innerText += ` Pontuação: ${pontuacao}`;
+        }
+    </script>
+</body>
+</html>
